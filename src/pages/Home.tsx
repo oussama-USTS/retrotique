@@ -109,7 +109,7 @@ const Home: React.FC = () => {
                   zIndex: -1,
                 }}
               >
-                Retrotique
+                Mon Lunetier Particulier
               </chakra.span>
               <br />
               <Text
@@ -203,7 +203,7 @@ const Home: React.FC = () => {
         >
           <Box textAlign="center" maxW="3xl" mx="auto">
             <Heading mb={4} size="2xl">
-              Pourquoi choisir Retrotique ?
+              Pourquoi choisir Mon Lunetier Particulier ?
             </Heading>
             <Text fontSize="xl" color="gray.500">
               Une solution complète pour optimiser vos échanges de montures
