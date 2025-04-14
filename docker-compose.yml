@@ -7,5 +7,7 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "5131:5131"
+      - "5173"
+    environment:
+      - NODE_ENV=production
     restart: unless-stopped
