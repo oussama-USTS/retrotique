@@ -1,52 +1,32 @@
-# Utiliser Node.js comme image de base
-FROM node:18-alpine
+# Build stage
+FROM node:20-alpine as builder
 
 # Définir le répertoire de travail
 WORKDIR /app
 
-# Copier les fichiers package.json et package-lock.json
+# Copier package.json et package-lock.json
 COPY package*.json ./
 
 # Installer les dépendances
-RUN npm install
+RUN npm ci
 
-# Copier le reste des fichiers de l'application
+# Copier le reste des fichiers
 COPY . .
 
-# Exposer le port 3000
-EXPOSE 3000
-
-# Démarrer l'application
-CMD ["npm", "start"]
-
-# Build stage
-FROM node:18-alpine as build
-
-WORKDIR /app
-
-# Copy package files
-COPY package*.json ./
-
-# Install dependencies
-RUN npm install
-
-# Copy source code
-COPY . .
-
-# Build the app
+# Build l'application
 RUN npm run build
 
 # Production stage
 FROM nginx:alpine
 
-# Copy built assets from build stage
-COPY --from=build /app/build /usr/share/nginx/html
+# Copier les fichiers buildés
+COPY --from=builder /app/dist /usr/share/nginx/html
 
-# Copy nginx configuration if needed
-# COPY nginx.conf /etc/nginx/conf.d/default.conf
+# Copier la configuration nginx
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Expose port 80
+# Exposer le port 80
 EXPOSE 80
 
-# Start nginx
+# Démarrer nginx
 CMD ["nginx", "-g", "daemon off;"] 
