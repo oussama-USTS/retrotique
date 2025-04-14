@@ -11,20 +11,4 @@ RUN npm ci
 # Copy all files
 COPY . .
 
-# Build application
-RUN npm run build
-
-# Production stage
-FROM nginx:alpine
-
-# Copy build files
-COPY --from=builder /app/dist /usr/share/nginx/html
-
-# Copy nginx configuration
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-
-# Expose port
-EXPOSE 80
-
-# Start nginx
-CMD ["nginx", "-g", "daemon off;"] 
+CMD ["npm", "run", "dev"]
